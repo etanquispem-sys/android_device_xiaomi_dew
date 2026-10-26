@@ -1,4 +1,4 @@
-# device_xiaomi_dew (borrador v0.2)
+# device_xiaomi_dew 
 Redmi 15C 4G (dew, MT6768). Recovery en vendor_boot (header v4).
 
 Archivos: AndroidProducts.mk, BoardConfig.mk, device.mk, twrp_dew.mk, fox_dew.mk, recovery.fstab,
