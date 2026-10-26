@@ -6,11 +6,11 @@
 
 # --- Particiones de arranque ---
 /boot         emmc  /dev/block/by-name/boot         flags=display="Boot";backup=1;flashimg=1;slotselect     # [V] slotselect en el stock
-# [?] En el stock estas cuatro NO llevan slotselect. Se confirma con: fastboot getvar all (slot-count, partition-size:vendor_boot_a ...)
-/vendor_boot  emmc  /dev/block/by-name/vendor_boot  flags=display="Vendor Boot";backup=1;flashimg=1
-/init_boot    emmc  /dev/block/by-name/init_boot    flags=display="Init Boot";backup=1;flashimg=1
-/dtbo         emmc  /dev/block/by-name/dtbo         flags=display="DTBO";backup=1;flashimg=1
-/vbmeta       emmc  /dev/block/by-name/vbmeta       flags=display="VBMeta";backup=1;flashimg=1
+# [V] fastboot getvar all: boot, init_boot, vendor_boot, dtbo y vbmeta tienen has-slot:yes (existen _a y _b). slot actual: b
+/vendor_boot  emmc  /dev/block/by-name/vendor_boot  flags=display="Vendor Boot";backup=1;flashimg=1;slotselect
+/init_boot    emmc  /dev/block/by-name/init_boot    flags=display="Init Boot";backup=1;flashimg=1;slotselect
+/dtbo         emmc  /dev/block/by-name/dtbo         flags=display="DTBO";backup=1;flashimg=1;slotselect
+/vbmeta       emmc  /dev/block/by-name/vbmeta       flags=display="VBMeta";backup=1;flashimg=1;slotselect
 
 # --- Datos ---
 /metadata     f2fs  /dev/block/by-name/metadata     flags=display="Metadata"                                # [V] f2fs
@@ -25,6 +25,9 @@
 # --- Almacenamiento externo [V] ---
 /sdcard1      auto  /devices/platform/11240000.mmc*  flags=display="Micro SDcard";storage;wipeingui;removable
 /usb_otg      auto  /devices/platform/mt_usb*        flags=display="USB OTG";storage;wipeingui;removable
+
+# --- vendor_dlkm: necesario para cargar el touch (lct_tp, xiaomi_touch, nt36528_spi) ---
+/vendor_dlkm  erofs  vendor_dlkm  flags=display="Vendor DLKM";logical;slotselect                              # [E][?] el tipo de fs (erofs/ext4) y la sintaxis se validan en el primer arranque
 
 # --- Particiones lógicas (dentro de super) ---
 # [?] Se activan tras confirmar el formato exacto con un build de prueba. En el stock cada una es erofs o ext4:

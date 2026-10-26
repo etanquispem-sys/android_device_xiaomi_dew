@@ -1,4 +1,4 @@
-# BoardConfig.mk v0.2 - dew (Redmi 15C 4G, MT6768)
+# BoardConfig.mk v0.3 - dew (Redmi 15C 4G, MT6768)
 # Leyenda: [V] verificado en tus imágenes | [R] patrón tomado de un árbol OFRP público de MT6769H (fire) que compila; validar con el log
 #          [E] plantilla estándar | [?] pendiente
 # Objetivo del primer build: que COMPILE y ARRANQUE. El descifrado va después.
@@ -54,11 +54,12 @@ BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 BOARD_RAMDISK_USE_LZ4 := true                    # [E] el formato stock es LZ4 legacy [V]; confirmar el nombre en el log
 
-# Tamaños de partición [V si tus archivos son dumps completos]
+# Tamaños de partición [V] fastboot getvar all: boot_a/b 0x4000000, vendor_boot_a/b 0x4000000, init_boot_a/b 0x800000, dtbo_a/b 0x800000
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
 BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 8388608
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 67108864
-# [?] BOARD_SUPER_PARTITION_SIZE: pendiente de `fastboot getvar partition-size:super`
+# [V] super = 0x240000000 = 9663676416 B, sin slot (Virtual A/B). Solo informativo para recovery:
+# BOARD_SUPER_PARTITION_SIZE := 9663676416
 
 # Sistemas de archivos
 TARGET_USERIMAGES_USE_EXT4 := true               # [E]
@@ -77,6 +78,8 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 # Recovery / interfaz
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 TARGET_SCREEN_DENSITY := 320                     # [V] ro.sf.lcd_density
+TARGET_SCREEN_WIDTH := 720                       # [V] wm size
+TARGET_SCREEN_HEIGHT := 1600                     # [V] wm size
 TW_THEME := portrait_hdpi                        # [R]
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888        # [R] si los colores salen invertidos, se cambia
 TW_FRAMERATE := 60                               # [R]
@@ -100,11 +103,15 @@ TW_INCLUDE_FUSE_NTFS := true                     # [R]
 # fastbootd [R] nombre del flag confirmado en el árbol de referencia. El recovery stock lo trae [V] (system/bin/fastbootd)
 TW_INCLUDE_FASTBOOTD := true
 
+# Touch [V]: Novatek NT36528 por SPI (NVTCapacitiveTouchScreen, bus SPI). Sus módulos viven en vendor_dlkm y NO están
+# en el recovery stock. Orden según dependencias de lsmod [V]: lct_tp -> xiaomi_touch -> nt36528_spi.
+# El resto de dependencias (miev, mtk_disp_notify, mtk_panel_ext, spi-mt65xx, paneles p15a) ya van en vendor_boot [V].
+TW_LOAD_VENDOR_MODULES := "lct_tp.ko xiaomi_touch.ko nt36528_spi.ko"   # [E] lista de módulos entre comillas; requiere montar /vendor_dlkm
+
 # [?] Pendientes de datos del teléfono:
 # TW_BRIGHTNESS_PATH := ...       (ruta del backlight)
 # TW_MAX_BRIGHTNESS := ...
 # TW_INPUT_BLACKLIST := ...
-# resolución de pantalla (wm size)
 # [?] TW_EXCLUDE_DEFAULT_USB_INIT: no se activa; init.recovery.mt6768.rc fija musb-hdrc + configfs [V]
 
 # Descifrado: DESACTIVADO en el primer build a propósito.
