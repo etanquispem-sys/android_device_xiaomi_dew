@@ -1,16 +1,18 @@
-# device_xiaomi_dew (borrador v0.3)
+# device_xiaomi_dew (borrador v0.4)
 Redmi 15C 4G (dew, MT6768). Recovery en vendor_boot (header v4).
 
 Archivos: AndroidProducts.mk, BoardConfig.mk, device.mk, twrp_dew.mk, fox_dew.mk, recovery.fstab,
 recovery/root/init.recovery.mt6768.rc
 
-Leyenda en cada archivo: [V] verificado en imágenes, [R] patrón de un árbol público de MT6769H, [E] plantilla estándar, [?] pendiente.
+Leyenda en cada archivo: [V] verificado en imagenes, [R] patron de un arbol publico de MT6769H, [E] plantilla estandar, [?] pendiente.
 
-Cambios v0.2 (ver también v0.3 abajo): base de direcciones alineada con el árbol de referencia (mismo resultado absoluto), productos twrp_dew y fox_dew,
-flag de fastbootd, init.recovery.mt6768.rc, y metadata encryption confirmada en la documentación de AOSP.
-Pendiente: resolución, brillo, touch, particiones lógicas, descifrado (2.º build).
-No subir imágenes ni módulos del firmware a este repositorio.
+Cambios v0.2 (ver tambien v0.3 abajo): base de direcciones alineada con el arbol de referencia (mismo resultado absoluto), productos twrp_dew y fox_dew,
+flag de fastbootd, init.recovery.mt6768.rc, y metadata encryption confirmada en la documentacion de AOSP.
+Pendiente: resolucion, brillo, touch, particiones logicas, descifrado (2.o build).
+No subir imagenes ni modulos del firmware a este repositorio.
 
-v0.3: resolución 720x1600, touch Novatek NT36528 (SPI) con TW_LOAD_VENDOR_MODULES y /vendor_dlkm en recovery.fstab. Aún sin probar en el teléfono.
+v0.3: resolucion 720x1600, touch Novatek NT36528 (SPI) con TW_LOAD_VENDOR_MODULES y /vendor_dlkm en recovery.fstab. Aun sin probar en el telefono.
 
 v0.3.1: device.mk hereda core_64_bit.mk antes de base.mk (error del build #1: 32-bit-app-only en dispositivo de 64 bits).
+
+v0.4: sin TARGET_COPY_OUT_PRODUCT/VENDOR (error del build #2); sin comentarios en la misma linea que un valor (en make, el espacio antes de # queda en el valor y rompe ifeq ... true); fstab sin comentarios en linea.
