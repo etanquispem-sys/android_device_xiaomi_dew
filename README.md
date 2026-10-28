@@ -1,4 +1,4 @@
-# device_xiaomi_dew (borrador v0.4)
+# device_xiaomi_dew (borrador v0.5)
 Redmi 15C 4G (dew, MT6768). Recovery en vendor_boot (header v4).
 
 Archivos: AndroidProducts.mk, BoardConfig.mk, device.mk, twrp_dew.mk, fox_dew.mk, recovery.fstab,
@@ -16,3 +16,5 @@ v0.3: resolucion 720x1600, touch Novatek NT36528 (SPI) con TW_LOAD_VENDOR_MODULE
 v0.3.1: device.mk hereda core_64_bit.mk antes de base.mk (error del build #1: 32-bit-app-only en dispositivo de 64 bits).
 
 v0.4: sin TARGET_COPY_OUT_PRODUCT/VENDOR (error del build #2); sin comentarios en la misma linea que un valor (en make, el espacio antes de # queda en el valor y rompe ifeq ... true); fstab sin comentarios en linea.
+
+v0.5: TW_BRIGHTNESS_PATH, TW_MAX_BRIGHTNESS y TW_DEFAULT_BRIGHTNESS (OrangeFox los exige; error del build #3). Valores provisionales de MediaTek.

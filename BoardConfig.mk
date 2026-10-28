@@ -1,4 +1,4 @@
-# BoardConfig.mk v0.4 - dew (Redmi 15C 4G, MT6768)
+# BoardConfig.mk v0.5 - dew (Redmi 15C 4G, MT6768)
 #
 # Leyenda (siempre en lineas aparte, nunca detras de un valor):
 #   [V] verificado en tus imagenes, en fastboot o en lsmod
@@ -96,6 +96,12 @@ TARGET_SCREEN_HEIGHT := 1600
 TW_THEME := portrait_hdpi
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TW_FRAMERATE := 60
+# Brillo [?]. OrangeFox exige TW_MAX_BRIGHTNESS (error del build #3, orangefox.mk:709).
+# Valores provisionales tipicos de MediaTek, tomados del arbol de referencia MT6769H [R]. Confirmar con:
+#   adb shell cat /sys/class/leds/lcd-backlight/max_brightness
+TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
+TW_MAX_BRIGHTNESS := 2047
+TW_DEFAULT_BRIGHTNESS := 1200
 TW_EXTRA_LANGUAGES := true
 TW_USE_TOOLBOX := true
 TW_INCLUDE_REPACKTOOLS := true
@@ -123,7 +129,7 @@ TW_INCLUDE_FASTBOOTD := true
 # [E] lista de modulos entre comillas; requiere montar /vendor_dlkm
 TW_LOAD_VENDOR_MODULES := "lct_tp.ko xiaomi_touch.ko nt36528_spi.ko"
 
-# [?] Pendientes: TW_BRIGHTNESS_PATH, TW_MAX_BRIGHTNESS, TW_INPUT_BLACKLIST
+# [?] Pendiente: TW_INPUT_BLACKLIST
 # [?] TW_EXCLUDE_DEFAULT_USB_INIT no se activa: init.recovery.mt6768.rc fija musb-hdrc + configfs [V]
 
 # Descifrado: DESACTIVADO en el primer build a proposito.

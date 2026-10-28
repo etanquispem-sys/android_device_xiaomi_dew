@@ -1,9 +1,14 @@
-# fox_dew.mk v0.2
-# Leyenda: [V] verificado en tus imágenes | [E] plantilla estándar | [?] pendiente
+# fox_dew.mk v0.4
+# Leyenda: [V] verificado | [E] plantilla estandar | [?] pendiente
 $(call inherit-product, device/xiaomi/dew/device.mk)
 
-PRODUCT_DEVICE := dew                 # [V] ro.product.vendor.device / ro.product.board
-PRODUCT_NAME := fox_dew              # [E] debe coincidir con el nombre del makefile
-PRODUCT_BRAND := Redmi                # [V]
-PRODUCT_MANUFACTURER := Xiaomi        # [E]
-PRODUCT_MODEL := Redmi 15C 4G         # [?] confirmar con: adb shell getprop ro.product.model
+# [V] ro.product.vendor.device y ro.product.board
+PRODUCT_DEVICE := dew
+# [E] debe coincidir con el nombre del makefile
+PRODUCT_NAME := fox_dew
+# [V]
+PRODUCT_BRAND := Redmi
+# [E]
+PRODUCT_MANUFACTURER := Xiaomi
+# [?] confirmar con: adb shell getprop ro.product.model
+PRODUCT_MODEL := Redmi 15C 4G
