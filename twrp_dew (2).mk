@@ -1,0 +1,14 @@
+# twrp_dew.mk v0.6
+# Leyenda: [V] verificado | [E] plantilla estandar | [?] pendiente
+$(call inherit-product, device/xiaomi/dew/device.mk)
+
+# [V] ro.product.vendor.device y ro.product.board
+PRODUCT_DEVICE := dew
+# [E] debe coincidir con el nombre del makefile
+PRODUCT_NAME := twrp_dew
+# [V]
+PRODUCT_BRAND := Redmi
+# [E]
+PRODUCT_MANUFACTURER := Xiaomi
+# [V] adb shell getprop ro.product.model
+PRODUCT_MODEL := 25078RA3EL
