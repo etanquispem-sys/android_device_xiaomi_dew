@@ -1,0 +1,42 @@
+# recovery.fstab v0.4 (formato estilo TWRP/OrangeFox)
+# Leyenda: [V] verificado en el fstab stock | [E] formato estandar, validar con el log | [?] pendiente
+# Origen: fstab.mt6768 del ramdisk de vendor_boot (nombres de particion y puntos de montaje [V]).
+#
+# punto de montaje | fs | dispositivo | flags
+
+# --- Particiones de arranque ---
+# [V] slotselect en el stock
+/boot         emmc  /dev/block/by-name/boot         flags=display="Boot";backup=1;flashimg=1;slotselect
+# [V] fastboot getvar all: boot, init_boot, vendor_boot, dtbo y vbmeta tienen has-slot:yes (existen _a y _b). slot actual: b
+/vendor_boot  emmc  /dev/block/by-name/vendor_boot  flags=display="Vendor Boot";backup=1;flashimg=1;slotselect
+/init_boot    emmc  /dev/block/by-name/init_boot    flags=display="Init Boot";backup=1;flashimg=1;slotselect
+/dtbo         emmc  /dev/block/by-name/dtbo         flags=display="DTBO";backup=1;flashimg=1;slotselect
+/vbmeta       emmc  /dev/block/by-name/vbmeta       flags=display="VBMeta";backup=1;flashimg=1;slotselect
+
+# --- Datos ---
+# [V] f2fs
+/metadata     f2fs  /dev/block/by-name/metadata     flags=display="Metadata"
+# [V] FBE v2, sin wrappedkey
+/data         f2fs  /dev/block/by-name/userdata     flags=display="Data";backup=1;wipeingui;wipeduringfactoryreset;fileencryption=aes-256-xts:aes-256-cts:v2
+# [V] el stock monta 'rescue' como /cache
+/cache        ext4  /dev/block/by-name/rescue       flags=display="Cache";wipeingui
+
+# --- Particiones de fabrica (solo lectura de usuario; no se formatean) ---
+# [V]
+/persist      ext4  /dev/block/by-name/persist      flags=display="Persist";backup=1
+# [V]
+/nvdata       ext4  /dev/block/by-name/nvdata       flags=display="NVData";backup=1
+# [V]
+/nvcfg        ext4  /dev/block/by-name/nvcfg        flags=display="NVCfg";backup=1
+
+# --- Almacenamiento externo [V] ---
+/sdcard1      auto  /devices/platform/11240000.mmc*  flags=display="Micro SDcard";storage;wipeingui;removable
+/usb_otg      auto  /devices/platform/mt_usb*        flags=display="USB OTG";storage;wipeingui;removable
+
+# --- vendor_dlkm: necesario para cargar el touch (lct_tp, xiaomi_touch, nt36528_spi) ---
+# [E][?] el tipo de fs (erofs/ext4) y la sintaxis se validan en el primer arranque
+/vendor_dlkm  erofs  vendor_dlkm  flags=display="Vendor DLKM";logical;slotselect
+
+# --- Particiones logicas (dentro de super) ---
+# [?] Se activan tras confirmar el formato exacto con un build de prueba. En el stock cada una es erofs o ext4:
+# system, system_ext, vendor, product, mi_ext, vendor_dlkm, odm_dlkm, system_dlkm  (todas con slotselect y logical)
